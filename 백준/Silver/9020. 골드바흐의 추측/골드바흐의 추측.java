@@ -25,15 +25,25 @@ class Main{
 
         for(int i = 0 ; i < count ; i++){
             int T = Integer.parseInt(br.readLine());
-            int[] tempList = primeList.stream().filter(x -> (x <= T / 2)).sorted().mapToInt(Integer::intValue).toArray();
+            // int[] tempList = primeList.stream().filter(x -> (x <= T / 2)).sorted().mapToInt(Integer::intValue).toArray();
 
-            for(int j = tempList.length - 1 ; j >= 0 ; j--){
-                if(primeList.indexOf(T - tempList[j]) != -1){
-                    int min = tempList[j] > T - tempList[j] ? T - tempList[j] : tempList[j];
-                    int max = tempList[j] < T - tempList[j] ? T - tempList[j] : tempList[j];
-                    sb.append(min).append(" ").append(max).append("\n");
+            // for(int j = tempList.length - 1 ; j >= 0 ; j--){
+            //     if(primeList.indexOf(T - tempList[j]) != -1){
+            //         int min = tempList[j] > T - tempList[j] ? T - tempList[j] : tempList[j];
+            //         int max = tempList[j] < T - tempList[j] ? T - tempList[j] : tempList[j];
+            //         sb.append(min).append(" ").append(max).append("\n");
+            //         break;
+            //     }
+            // }
+            int left = T / 2;
+            int right = T / 2;
+            while(true){
+                if((primeList.indexOf(left) != -1) && (primeList.indexOf(right) != -1)){
+                    sb.append(left).append(" ").append(right).append("\n");
                     break;
                 }
+                left--;
+                right++;
             }
         }
 

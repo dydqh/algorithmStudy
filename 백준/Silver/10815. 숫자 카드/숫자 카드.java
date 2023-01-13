@@ -1,5 +1,5 @@
 import java.io.*;
-import java.util.*;
+// import java.util.*;
 
 class Main{
     public static void main(String[] args) throws IOException{
@@ -7,19 +7,27 @@ class Main{
         StringBuffer sb = new StringBuffer();
         int hasCount = Integer.parseInt(br.readLine());
         String[] hasList = br.readLine().split(" ");
-        Map<String, Boolean> map = new HashMap<>();
+        boolean[] boolList = new boolean[20000001];
+        // Map<String, Boolean> map = new HashMap<>();
 
         for(int i = 0 ; i < hasCount ; i++){
-            if(!map.containsKey(hasList[i])){
-                map.put(hasList[i], true);
-            }
+            boolList[Integer.parseInt(hasList[i]) + 10000000] = true;
+            // if(!map.containsKey(hasList[i])){
+            //     map.put(hasList[i], true);
+            // }
         }
 
         int count = Integer.parseInt(br.readLine());
         String[] list = br.readLine().split(" ");
 
         for(int i = 0 ; i < count ; i++){
-            if(map.containsKey(list[i])){
+            // if(map.containsKey(list[i])){
+            //     sb.append("1 ");
+            // }
+            // else{
+            //     sb.append("0 ");
+            // }
+            if(boolList[Integer.parseInt(list[i]) + 10000000]){
                 sb.append("1 ");
             }
             else{

@@ -1,5 +1,3 @@
-import java.util.*;
-
 class Solution {
     public String solution(String s) {
         int[] charCount = new int[140];
@@ -14,7 +12,6 @@ class Solution {
                 sb.append((char)i);
             }
         }
-        
         
         return sb.toString();
     }

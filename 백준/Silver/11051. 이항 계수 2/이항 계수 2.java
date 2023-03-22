@@ -23,6 +23,6 @@ class Main{
             return 1;
         }
 
-        return dp[N][K] = (BC(N - 1, K - 1) % 10007 + BC(N - 1, K) % 10007) % 10007;
+        return dp[N][K] = (BC(N - 1, K - 1) + BC(N - 1, K)) % 10007;
     }
 }

@@ -1,5 +1,4 @@
 import java.io.*;
-import java.math.*;
 
 class Main{
     public static void main(String[] args) throws IOException{
@@ -9,16 +8,20 @@ class Main{
 
         for(int i = 0 ; i < caseCount ; i++){
             long n = Long.parseLong(br.readLine());
-            BigInteger bi = new BigInteger(String.valueOf(n));
-
-            if(bi.isProbablePrime(10)){
-                sb.append(n).append("\n");
+            while(!isPrime(n)){
+                n++;
             }
-            else{
-                sb.append(bi.nextProbablePrime()).append("\n");
-            }
+            sb.append(n).append("\n");
         }
 
         System.out.println(sb.toString());
+    }
+
+    public static boolean isPrime(long number){
+        if(number < 2) return false;
+        for(int i = 2 ; i <= Math.sqrt(number) ; i++){
+            if(number % i == 0) return false;
+        }
+        return true;
     }
 }

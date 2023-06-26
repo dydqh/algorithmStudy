@@ -17,16 +17,7 @@ public class Main {
             int y2 = Integer.parseInt(array[4]);
             int r2 = Integer.parseInt(array[5]);
 
-            int xL = x2 >= x1 ? x2 : x1;
-            int xS = x2 >= x1 ? x1 : x2;
-            int xD = xL - xS;
-            int yL = y2 >= y1 ? y2 : y1;
-            int yS = y2 >= y1 ? y1 : y2;
-            int yD = yL - yS;
-            double distance = Math.sqrt((yD * yD) + (xD * xD));
-
-            int rL = r2 >= r1 ? r2 : r1;
-            int rS = r2 >= r1 ? r1 : r2;
+            double distance = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 
             // 일치
             if (x1 == x2 && y1 == y2 && r1 == r2) {
@@ -39,7 +30,7 @@ public class Main {
             }
 
             // 내접
-            else if ((rL - rS) == distance){
+            else if (Math.sqrt((double)(r2 - r1) * (r2 - r1)) == distance){
                 sb.append("1 ");
             }
 
@@ -49,7 +40,7 @@ public class Main {
             }
 
             // 두 점
-            else if ((rL - rS) < distance && distance < r1 + r2){
+            else if (Math.sqrt((double)(r2 - r1) * (r2 - r1)) < distance && distance < r1 + r2){
                 sb.append("2 ");
             }
 

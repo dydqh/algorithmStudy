@@ -1,9 +1,7 @@
-import java.util.*;
 import java.util.stream.IntStream;
 
 class Solution {
     public int solution(int[] rank, boolean[] attendance) {
-        int[] temp = IntStream.range(0, rank.length).filter(i -> attendance[i]).mapToObj(i -> i).sorted((a, b) -> rank[a] - rank[b]).mapToInt(i -> i).toArray();
-        return 10000 * temp[0] + 100 * temp[1] + temp[2];
+        return IntStream.range(0, rank.length).filter(i -> attendance[i]).boxed().sorted((a, b) -> rank[a] - rank[b]).limit(3).reduce((a, b) -> a * 100 + b).get();
     }
 }

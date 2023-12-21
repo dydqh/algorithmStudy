@@ -1,13 +1,10 @@
-import java.util.stream.IntStream;
-
 class Solution {
-    public int max = 0;
-    public int maxCount = 0;
-    public int[] count = new int[1001];
-
     public int solution(int[] array) {
+        int[] count = new int[1001];
+        int max = 0;
+        int maxCount = 0;
 
-        IntStream.range(0, array.length).forEach(i -> {
+        for(int i = 0 ; i < array.length ; i++){
             count[array[i]]++;
             if(maxCount < count[array[i]]){
                 maxCount = count[array[i]];
@@ -16,7 +13,7 @@ class Solution {
             else if(maxCount == count[array[i]]){
                 max = -1;
             }
-        });
+        }
         
         return max;
     }

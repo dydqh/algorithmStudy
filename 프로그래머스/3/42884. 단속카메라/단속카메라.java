@@ -3,42 +3,18 @@ import java.util.*;
 class Solution {
     public int solution(int[][] routes) {
         int answer = 0;
-        List<Node> list = new ArrayList<>();
+        Arrays.sort(routes, (o1, o2) -> { return o1[0] != o2[0] ? o1[0] - o2[0] : o2[1] - o1[1];});
+        int end = routes[0][1];
         for(int[] route : routes){
-            list.add(new Node(route[0], route[1]));
-        }
-        Collections.sort(list);
-        int end = list.get(0).end;
-        for(Node route : list){
-            if(route.start <= end){
-                end = Math.min(route.end, end);
+            if(route[0] <= end){
+                end = Math.min(route[1], end);
             }
             else{
                 answer++;
-                end = route.end;
+                end = route[1];
             }
         }
         answer++;
         return answer;
-    }
-
-    public static class Node implements Comparable<Node> {
-        private final int start;
-        private final int end;
-
-        public Node(int start, int end){
-            this.start = start;
-            this.end = end;
-        }
-
-        @Override
-        public int compareTo(Node o){
-            if(this.start != o.start){
-                return this.start - o.start;
-            }
-            else{
-                return o.end - this.end;
-            }
-        }
     }
 }

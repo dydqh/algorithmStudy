@@ -1,12 +1,13 @@
 import java.util.*;
 
 class Solution {
+    public String[] languages = new String[]{"cpp", "java", "python"};
+    public String[] occupations = new String[]{"backend", "frontend"};
+    public String[] experiences = new String[]{"junior", "senior"};
+    public String[] soulFoods = new String[]{"chicken", "pizza"};
+
     public int[] solution(String[] info, String[] query) {
         int[] answer = new int[query.length];
-        String[] languages = new String[]{"cpp", "java", "python", "-"};
-        String[] occupations = new String[]{"backend", "frontend", "-"};
-        String[] experiences = new String[]{"junior", "senior", "-"};
-        String[] soulFoods = new String[]{"chicken", "pizza", "-"};
         Map<String, Map<String, Map<String, Map<String, List<Integer>>>>> map = new HashMap<>();
 
         for (String language : languages) {
@@ -26,32 +27,9 @@ class Solution {
             String[] cur = curInfo.split(" ");
             int curScore = Integer.parseInt(cur[4]);
             map.get(cur[0]).get(cur[1]).get(cur[2]).get(cur[3]).add(curScore);
-            map.get("-").get(cur[1]).get(cur[2]).get(cur[3]).add(curScore);
-            map.get("-").get("-").get(cur[2]).get(cur[3]).add(curScore);
-            map.get("-").get(cur[1]).get("-").get(cur[3]).add(curScore);
-            map.get("-").get(cur[1]).get(cur[2]).get("-").add(curScore);
-            map.get("-").get("-").get("-").get(cur[3]).add(curScore);
-            map.get("-").get("-").get(cur[2]).get("-").add(curScore);
-            map.get("-").get(cur[1]).get("-").get("-").add(curScore);
-            map.get("-").get("-").get("-").get("-").add(curScore);
-            map.get(cur[0]).get("-").get(cur[2]).get(cur[3]).add(curScore);
-            map.get(cur[0]).get("-").get("-").get(cur[3]).add(curScore);
-            map.get(cur[0]).get("-").get(cur[2]).get("-").add(curScore);
-            map.get(cur[0]).get("-").get("-").get("-").add(curScore);
-            map.get(cur[0]).get(cur[1]).get("-").get(cur[3]).add(curScore);
-            map.get(cur[0]).get(cur[1]).get("-").get("-").add(curScore);
-            map.get(cur[0]).get(cur[1]).get(cur[2]).get("-").add(curScore);
         }
 
-        for (String language : languages) {
-            for (String occupation : occupations) {
-                for (String experience : experiences) {
-                    for (String soulFood : soulFoods) {
-                        Collections.sort(map.get(language).get(occupation).get(experience).get(soulFood));
-                    }
-                }
-            }
-        }
+        Map<String, List<Integer>> searched = new HashMap<>();
 
         for (int i = 0; i < query.length; i++) {
             String[] cur = query[i].split(" ");
@@ -61,7 +39,16 @@ class Solution {
             String soulFood = cur[6];
             int score = Integer.parseInt(cur[7]);
 
-            List<Integer> curList = map.get(language).get(occupation).get(experience).get(soulFood);
+            List<Integer> curList;
+
+            if(!searched.containsKey(language + occupation + experience + soulFood)){
+                curList = getListByLanguage(map, language, occupation, experience, soulFood);
+                Collections.sort(curList);
+                searched.put(language + occupation + experience + soulFood, curList);
+            }
+            else{
+                curList = searched.get(language + occupation + experience + soulFood);
+            }
 
             int low = 0;
             int high = curList.size();
@@ -79,5 +66,57 @@ class Solution {
         }
 
         return answer;
+    }
+
+    public List<Integer> getListByLanguage(Map<String, Map<String, Map<String, Map<String, List<Integer>>>>> map, String language, String occupation, String experience, String soulFood){
+        List<Integer> curList = new ArrayList<>();
+        if(language.equals("-")){
+            for(String curLanguage : languages){
+                curList.addAll(getListByOccupation(map, curLanguage, occupation, experience, soulFood));
+            }
+        }
+        else{
+            curList.addAll(getListByOccupation(map, language, occupation, experience, soulFood));
+        }
+        return curList;
+    }
+
+    public List<Integer> getListByOccupation(Map<String, Map<String, Map<String, Map<String, List<Integer>>>>> map, String language, String occupation, String experience, String soulFood){
+        List<Integer> curList = new ArrayList<>();
+        if(occupation.equals("-")){
+            for(String curOccupation : occupations){
+                curList.addAll(getListByExperience(map, language, curOccupation, experience, soulFood));
+            }
+        }
+        else{
+            curList.addAll(getListByExperience(map, language, occupation, experience, soulFood));
+        }
+        return curList;
+    }
+
+    public List<Integer> getListByExperience(Map<String, Map<String, Map<String, Map<String, List<Integer>>>>> map, String language, String occupation, String experience, String soulFood){
+        List<Integer> curList = new ArrayList<>();
+        if(experience.equals("-")){
+            for(String curExperience : experiences){
+                curList.addAll(getListBySoulFood(map, language, occupation, curExperience, soulFood));
+            }
+        }
+        else{
+            curList.addAll(getListBySoulFood(map, language, occupation, experience, soulFood));
+        }
+        return curList;
+    }
+
+    public List<Integer> getListBySoulFood(Map<String, Map<String, Map<String, Map<String, List<Integer>>>>> map, String language, String occupation, String experience, String soulFood){
+        List<Integer> curList = new ArrayList<>();
+        if(soulFood.equals("-")){
+            for(String curSoulFood : soulFoods){
+                curList.addAll(map.get(language).get(occupation).get(experience).get(curSoulFood));
+            }
+        }
+        else{
+            curList.addAll(map.get(language).get(occupation).get(experience).get(soulFood));
+        }
+        return curList;
     }
 }
